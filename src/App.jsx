@@ -277,7 +277,7 @@ export default function App() {
 
     // --- GỬI DỮ LIỆU VỀ GOOGLE SHEETS ---
     // Đường dẫn Web App Google Apps Script của bạn
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec"; 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxiYl3JEeLtlkb-APdR94OUCmLMM6NYfZgqUukxyy7JvZKj8GZSZ0_zBa9Nc1nZvqaJWw/exec"; 
     
     try {
       // Gộp nhận xét AI thành 1 đoạn văn bản
