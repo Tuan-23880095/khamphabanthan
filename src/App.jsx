@@ -200,7 +200,7 @@ export default function App() {
   const [selections, setSelections] = useState({ A: [], B: [], C: [] });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [results, setResults] = useState(null);
-  const [userInfo, setUserInfo] = useState({ username: '', email: '' });
+  const [userInfo, setUserInfo] = useState({ fullName: '', className: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Xử lý khi click vào ô cào
@@ -234,8 +234,8 @@ export default function App() {
 
   // Xử lý nộp bài
   const handleSubmit = async () => {
-    if (!userInfo.username.trim()) {
-      alert("Vui lòng nhập Tên đăng nhập trước khi xem kết quả!");
+    if (!userInfo.fullName.trim()) {
+      alert("Vui lòng nhập Họ tên trước khi xem kết quả!");
       return;
     }
 
@@ -280,27 +280,28 @@ export default function App() {
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec"; 
     
     try {
+      // Gộp nhận xét AI thành 1 đoạn văn bản
+      const aiFeedback = `${resultDescriptions[maxShape].name}: ${resultDescriptions[maxShape].belbinRole} - ${resultDescriptions[maxShape].belbinDesc}`;
+      
       const payload = {
-        username: userInfo.username,
-        email: userInfo.email || "Không cung cấp",
-        dominantShape: resultDescriptions[maxShape].name,
-        belbinRole: resultDescriptions[maxShape].belbinRole,
-        selectionsA: selections.A.map(item => item.id).join(', '),
-        selectionsB: selections.B.map(item => item.id).join(', '),
-        selectionsC: selections.C.map(item => item.id).join(', '),
-        scoreSquare: tallies.square,
-        scoreTriangle: tallies.triangle,
-        scoreCircle: tallies.circle,
-        scoreSquiggle: tallies.squiggle,
-        scoreRectangle: tallies.rectangle,
-        timestamp: new Date().toLocaleString('vi-VN')
+        action: "save_psycho_test",
+        timestamp: new Date().toLocaleString('vi-VN'),
+        testName: "Tâm Lý Hình Học",
+        fullName: userInfo.fullName,
+        className: userInfo.className || "Không ghi",
+        aiFeedback: aiFeedback,
+        shapeSquare: tallies.square,
+        shapeTriangle: tallies.triangle,
+        shapeCircle: tallies.circle,
+        shapeSquiggle: tallies.squiggle,
+        shapeRectangle: tallies.rectangle
       };
 
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
         body: JSON.stringify(payload)
       });
@@ -334,7 +335,7 @@ export default function App() {
              <button 
              onClick={() => {
                setSelections({ A: [], B: [], C: [] });
-               setUserInfo({ username: '', email: '' });
+               setUserInfo({ fullName: '', className: '' });
                setIsSubmitted(false);
                setResults(null);
              }}
@@ -578,17 +579,17 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <input 
                   type="text" 
-                  placeholder="Tên đăng nhập (* Bắt buộc)" 
-                  value={userInfo.username}
-                  onChange={(e) => setUserInfo({...userInfo, username: e.target.value})}
+                  placeholder="Họ và tên (* Bắt buộc)" 
+                  value={userInfo.fullName}
+                  onChange={(e) => setUserInfo({...userInfo, fullName: e.target.value})}
                   className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
                   required
                 />
                 <input 
-                  type="email" 
-                  placeholder="Email (Tùy chọn)" 
-                  value={userInfo.email}
-                  onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
+                  type="text" 
+                  placeholder="Lớp (Tùy chọn)" 
+                  value={userInfo.className}
+                  onChange={(e) => setUserInfo({...userInfo, className: e.target.value})}
                   className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
                 />
               </div>
