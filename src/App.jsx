@@ -109,7 +109,9 @@ const resultDescriptions = {
     desc: "Hình Vuông tôn sùng tính tổ chức, ngăn nắp, trật tự. Niềm tin của bạn là: 'Bàn làm việc có gọn gàng ngăn nắp thì đầu óc mới làm việc sáng suốt được'. Bạn tỉ mỉ, chăm chút đến từng chi tiết và thích các số liệu cụ thể. Bạn rất chăm chỉ, đáng tin cậy. Khi đã hứa, bạn thực hiện bằng bất cứ giá nào. Bạn thích làm việc độc lập, kiên định và nhẫn nại. Tuy nhiên, bạn rất khó chấp nhận một sự thay đổi đột ngột.",
     color: "text-blue-600",
     bg: "bg-blue-100",
-    border: "border-blue-600"
+    border: "border-blue-600",
+    belbinRole: "Người Kiểm tra/Lượng giá (Monitor/Evaluator - ME) & Người Bổ sung (Implementer)",
+    belbinDesc: "Đặc điểm tương đồng: Tôn sùng tính tổ chức, làm việc có kế hoạch, cực kỳ chính xác và tập trung vào dữ liệu thực tế. Là người điềm đạm, làm việc theo trình tự, thiết lập biểu thời gian chặt chẽ nhằm đảm bảo nhóm hoạt động trôi chảy và lường trước sự trì trệ. Điểm yếu chung: Thiếu động lực, thiếu khả năng tạo cảm hứng cho người khác, đôi khi quá khô cứng, chần chừ đưa ra quyết định và hay phê phán thái quá."
   },
   triangle: {
     name: "HÌNH TAM GIÁC",
@@ -117,7 +119,9 @@ const resultDescriptions = {
     desc: "Hình Tam Giác thể hiện tố chất lãnh đạo rõ nhất. Bạn rất quyết đoán, tự tin và luôn muốn mọi thứ nằm trong tầm kiểm soát. Bạn có tính cạnh tranh cao và luôn hướng tới mục tiêu chiến thắng. Bạn không thích sự trì hoãn, quyết định rất nhanh và đi thẳng vào vấn đề. Điểm nổi bật nhất của bạn là khả năng tập trung cao độ, 'làm hết sức, chơi hết mình'.",
     color: "text-red-600",
     bg: "bg-red-100",
-    border: "border-red-600"
+    border: "border-red-600",
+    belbinRole: "Người Định hướng (Shaper - SH) & Người Điều phối (Co-ordinator - CO)",
+    belbinDesc: "Đặc điểm tương đồng: Năng động, tự tin, hay đòi hỏi, tạo áp lực đốc thúc người khác hướng tới kết quả cuối cùng và luôn có tính cạnh tranh cao (phải thắng). Thích làm người đứng đầu, khả năng làm rõ mục tiêu và thúc đẩy tiến trình ra quyết định. Điểm yếu chung: Có khuynh hướng thao túng, khiêu khích, hoặc đưa ra quyết định quá nhanh mà không thèm lắng nghe ý kiến người khác, dễ làm tổn thương đồng đội."
   },
   circle: {
     name: "HÌNH TRÒN",
@@ -125,7 +129,9 @@ const resultDescriptions = {
     desc: "Hình Tròn là biểu tượng của sự hài hòa. Bạn là người thân thiện, dễ gần, là 'người của mọi người'. Bạn có khả năng lắng nghe và cảm thông sâu sắc với nỗi đau của người khác. Bạn ghét mâu thuẫn, xung đột và thường là người nhượng bộ, làm hòa trước để giữ gìn các mối quan hệ. Trong tập thể, bạn là chất keo kết nối, giỏi khích lệ và mang lại niềm vui cho mọi người.",
     color: "text-green-600",
     bg: "bg-green-100",
-    border: "border-green-600"
+    border: "border-green-600",
+    belbinRole: "Người Làm việc nhóm (Teamworker - TW) & Người Khai thác nguồn lực (Resource Investigator - RI)",
+    belbinDesc: "Đặc điểm tương đồng: Đặc trưng bởi tính hòa đồng, nhiệt tình, giao tiếp tốt, rất giỏi trong việc xây dựng và phát triển các mối quan hệ. Ôn hòa, có tinh thần hợp tác, biết lắng nghe, đóng góp xây dựng và giỏi ngăn chặn/giảm nhẹ bất hòa trong nhóm. Điểm yếu chung: Rất sợ mâu thuẫn, hay nhượng bộ nên rất khó đưa ra quyết định trong những tình huống mang tính 'sống còn'."
   },
   squiggle: {
     name: "HÌNH LƯỢN SÓNG",
@@ -133,7 +139,9 @@ const resultDescriptions = {
     desc: "Hình Lượn Sóng đại diện cho nhóm người yêu tự do và cực kỳ sáng tạo. Bạn xử lý thông tin bằng trực giác, liên tục nghĩ ra ý tưởng mới và không thích sự gò bó, chi tiết. Bạn có tư tưởng cầu tiến, say mê với cái mới. Bạn luôn nói thẳng, nói thật, tràn đầy năng lượng, có khiếu hài hước. Dù thỉnh thoảng hơi bừa bộn và 'bốc đồng', bạn luôn là tâm điểm truyền cảm hứng cho mọi người.",
     color: "text-purple-600",
     bg: "bg-purple-100",
-    border: "border-purple-600"
+    border: "border-purple-600",
+    belbinRole: "Người Sáng tạo (Plant - PL)",
+    belbinDesc: "Đặc điểm tương đồng: Đại diện cho sự sáng tạo, liên tục nghĩ ra ý tưởng mới, thích sự tự do và hay sử dụng trực giác. Là chuyên gia đưa ra ý tưởng, có óc tưởng tượng, độc đáo và giải quyết các vấn đề khó khăn. Điểm yếu chung: Có xu hướng bỏ qua hoặc rất ghét các chi tiết phụ, thiếu thực tế và đôi khi khó giao tiếp hiệu quả vì quá đắm chìm vào thế giới ý tưởng của mình."
   },
   rectangle: {
     name: "HÌNH CHỮ NHẬT",
@@ -141,7 +149,9 @@ const resultDescriptions = {
     desc: "Hình Chữ Nhật đại diện cho một giai đoạn chuyển giao. Bạn đang cảm thấy có sự thôi thúc thay đổi trong công việc hoặc cuộc sống. Nét nổi bật của bạn lúc này là tâm trạng khá thất thường, đang trong giai đoạn mất cân bằng nhưng lại khao khát khám phá hướng đi mới. Đây là lúc bạn học hỏi được nhiều nhất, dám thử những điều chưa từng làm. Đừng lo lắng, đây chỉ là giai đoạn tạm thời để bạn vươn lên.",
     color: "text-orange-600",
     bg: "bg-orange-100",
-    border: "border-orange-600"
+    border: "border-orange-600",
+    belbinRole: "Giai đoạn chuyển giao, chưa định hình rõ vai trò",
+    belbinDesc: "Đặc điểm tương đồng: Không có đặc tính cố định, tượng trưng cho sự thay đổi. Đang bối rối, có thể đảm nhận bất cứ vai trò nào tùy vào thời điểm, hoặc họ đang cần sự hướng dẫn sát sao từ nhóm trưởng (Hình Tam giác) để định hình lại năng lực thực sự của mình trước khi chuyển sang một hình khối/vai trò cố định khác."
   }
 };
 
@@ -190,6 +200,8 @@ export default function App() {
   const [selections, setSelections] = useState({ A: [], B: [], C: [] });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [results, setResults] = useState(null);
+  const [userInfo, setUserInfo] = useState({ username: '', email: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Xử lý khi click vào ô cào
   const toggleSelection = (section, item) => {
@@ -221,7 +233,12 @@ export default function App() {
   };
 
   // Xử lý nộp bài
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!userInfo.username.trim()) {
+      alert("Vui lòng nhập Tên đăng nhập trước khi xem kết quả!");
+      return;
+    }
+
     // Kiểm tra xem đã chọn đủ chưa
     if (selections.A.length < 7 || selections.B.length < 7 || selections.C.length < 7) {
       const confirmSubmit = window.confirm(
@@ -229,6 +246,8 @@ export default function App() {
       );
       if (!confirmSubmit) return;
     }
+
+    setIsSubmitting(true);
 
     // Tính toán kết quả
     const allSelected = [...selections.A, ...selections.B, ...selections.C];
@@ -254,7 +273,47 @@ export default function App() {
       }
     }
 
-    setResults({ tallies, dominant: maxShape });
+    const resultData = { tallies, dominant: maxShape };
+
+    // --- GỬI DỮ LIỆU VỀ GOOGLE SHEETS ---
+    // Đường dẫn Web App Google Apps Script của bạn
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBPRlkjpMLDctdm2Uk7aYex_P6Cx0uhIdUmwOcYEm9C7JDe5OH92FiWEn6Nz1HNenY-A/exec"; 
+    
+    try {
+      const payload = {
+        username: userInfo.username,
+        email: userInfo.email || "Không cung cấp",
+        dominantShape: resultDescriptions[maxShape].name,
+        belbinRole: resultDescriptions[maxShape].belbinRole,
+        selectionsA: selections.A.map(item => item.id).join(', '),
+        selectionsB: selections.B.map(item => item.id).join(', '),
+        selectionsC: selections.C.map(item => item.id).join(', '),
+        scoreSquare: tallies.square,
+        scoreTriangle: tallies.triangle,
+        scoreCircle: tallies.circle,
+        scoreSquiggle: tallies.squiggle,
+        scoreRectangle: tallies.rectangle,
+        timestamp: new Date().toLocaleString('vi-VN')
+      };
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      // Đợi 1 chút để giả lập loading UX
+      await new Promise(resolve => setTimeout(resolve, 800));
+    } catch (error) {
+      console.error("Lỗi khi gửi dữ liệu:", error);
+      alert("Có lỗi xảy ra khi lưu kết quả về máy chủ. Tuy nhiên kết quả của bạn vẫn sẽ hiển thị.");
+    }
+
+    setIsSubmitting(false);
+    setResults(resultData);
     setIsSubmitted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -275,6 +334,7 @@ export default function App() {
              <button 
              onClick={() => {
                setSelections({ A: [], B: [], C: [] });
+               setUserInfo({ username: '', email: '' });
                setIsSubmitted(false);
                setResults(null);
              }}
@@ -330,6 +390,20 @@ export default function App() {
                   <p className="text-gray-700 leading-relaxed text-lg">
                     {resultDescriptions[results.dominant].desc}
                   </p>
+
+                  {/* NỘI DUNG BELBIN THÊM VÀO */}
+                  <div className="mt-6 bg-white bg-opacity-60 p-5 rounded-lg border border-gray-200 shadow-sm text-left">
+                    <h4 className="font-bold text-gray-800 text-lg mb-2 border-b border-gray-300 pb-2">
+                      Vai trò trong nhóm (Theo lý thuyết Belbin)
+                    </h4>
+                    <p className="text-blue-800 font-semibold mb-2">
+                      {resultDescriptions[results.dominant].belbinRole}
+                    </p>
+                    <p className="text-gray-700 text-sm italic">
+                      {resultDescriptions[results.dominant].belbinDesc}
+                    </p>
+                  </div>
+
                 </div>
               </div>
 
@@ -346,6 +420,18 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
+              {/* Lời khuyên cho giảng viên */}
+              <div className="mt-8 bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+                <h4 className="text-blue-800 font-bold mb-3 uppercase text-sm tracking-wide">💡 Tóm tắt Ứng dụng cho Giảng viên / Trưởng nhóm</h4>
+                <ul className="text-sm text-blue-900 space-y-3">
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm cần một bản Kế hoạch hành động / Gantt chart ➔ Hãy giao cho <strong>Hình Vuông</strong> (Monitor/Evaluator / Implementer).</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm xảy ra cãi vã nội bộ ➔ Hãy nhờ <strong>Hình Tròn</strong> (Teamworker) đứng ra giải quyết.</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm bí ý tưởng đề tài ➔ Hãy hỏi <strong>Hình Lượn sóng</strong> (Plant).</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu deadline sắp đến mà nhóm vẫn chậm chạp ➔ Hãy để <strong>Hình Tam giác</strong> (Shaper) lên tiếng đốc thúc.</span></li>
+                </ul>
+              </div>
+
             </div>
           </div>
         )}
@@ -485,20 +571,44 @@ export default function App() {
 
         {/* Nút Submit */}
         {!isSubmitted && (
-          <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-lg z-20">
-            <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className="text-sm text-gray-600 font-medium">
-                Tiến độ: 
-                <span className="ml-2 px-2 border-r border-gray-300">A: {getProgress('A')}</span>
-                <span className="px-2 border-r border-gray-300">B: {getProgress('B')}</span>
-                <span className="px-2">C: {getProgress('C')}</span>
+          <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-20">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+              
+              {/* Form thông tin cá nhân */}
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <input 
+                  type="text" 
+                  placeholder="Tên đăng nhập (* Bắt buộc)" 
+                  value={userInfo.username}
+                  onChange={(e) => setUserInfo({...userInfo, username: e.target.value})}
+                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
+                  required
+                />
+                <input 
+                  type="email" 
+                  placeholder="Email (Tùy chọn)" 
+                  value={userInfo.email}
+                  onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
+                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
+                />
               </div>
-              <button 
-                onClick={handleSubmit}
-                className="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-bold shadow-md transition-colors"
-              >
-                XEM KẾT QUẢ
-              </button>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto justify-end">
+                <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
+                  Tiến độ: 
+                  <span className="ml-2 px-2 border-r border-gray-300">A: {getProgress('A')}</span>
+                  <span className="px-2 border-r border-gray-300">B: {getProgress('B')}</span>
+                  <span className="px-2">C: {getProgress('C')}</span>
+                </div>
+                <button 
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`w-full sm:w-auto px-8 py-3 rounded-lg font-bold shadow-md transition-colors whitespace-nowrap
+                    ${isSubmitting ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}
+                >
+                  {isSubmitting ? 'ĐANG GỬI...' : 'XEM KẾT QUẢ'}
+                </button>
+              </div>
             </div>
           </div>
         )}
