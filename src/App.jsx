@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 // --- BỘ DỮ LIỆU BÀI TRẮC NGHIỆM ---
-// Dựa trên nội dung tài liệu bạn cung cấp, phân loại các câu hỏi vào các hình tương ứng.
-// square: Vuông, triangle: Tam giác, circle: Tròn, squiggle: Lượn sóng, rectangle: Chữ nhật
 const testData = {
   A: [
     { id: 'a1', text: 'Thích lãnh đạo', shape: 'triangle' },
@@ -101,7 +99,7 @@ const testData = {
   ]
 };
 
-// --- DỮ LIỆU KẾT QUẢ TÍNH CÁCH (Lấy từ file Doc) ---
+// --- DỮ LIỆU KẾT QUẢ TÍNH CÁCH ---
 const resultDescriptions = {
   square: {
     name: "HÌNH VUÔNG",
@@ -116,7 +114,7 @@ const resultDescriptions = {
   triangle: {
     name: "HÌNH TAM GIÁC",
     quote: "“Đừng bao giờ để người khác thấy bạn đang lo sợ”",
-    desc: "Hình Tam Giác thể hiện tố chất lãnh đạo rõ nhất. Bạn rất quyết đoán, tự tin và luôn muốn mọi thứ nằm trong tầm kiểm soát. Bạn có tính cạnh tranh cao và luôn hướng tới mục tiêu chiến thắng. Bạn không thích sự trì hoãn, quyết định rất nhanh và đi thẳng vào vấn đề. Điểm nổi bật nhất của bạn là khả năng tập trung cao độ, 'làm hết sức, chơi hết mình'.",
+    desc: "Hình Tam Giác thể hiện tố chất lãnh đạo rõ nhất. Bạn rất quyết đoán, tự tự và luôn muốn mọi thứ nằm trong tầm kiểm soát. Bạn có tính cạnh tranh cao và luôn hướng tới mục tiêu chiến thắng. Bạn không thích sự trì hoãn, quyết định rất nhanh và đi thẳng vào vấn đề. Điểm nổi bật nhất của bạn là khả năng tập trung cao độ, 'làm hết sức, chơi hết mình'.",
     color: "text-red-600",
     bg: "bg-red-100",
     border: "border-red-600",
@@ -155,7 +153,7 @@ const resultDescriptions = {
   }
 };
 
-// --- CÁC COMPONENT SVG ĐỂ VẼ HÌNH ---
+// --- CÁC COMPONENT SVG ---
 const ShapeIcon = ({ shape, className = "w-6 h-6" }) => {
   switch (shape) {
     case 'square':
@@ -203,27 +201,24 @@ export default function App() {
   const [userInfo, setUserInfo] = useState({ fullName: '', className: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Xử lý khi click vào ô cào
+  // Xử lý khi click vào ô
   const toggleSelection = (section, item) => {
-    if (isSubmitted) return; // Không cho sửa khi đã nộp
+    if (isSubmitted) return;
 
     setSelections(prev => {
       const currentSectionSelected = prev[section];
       const isAlreadySelected = currentSectionSelected.some(sel => sel.id === item.id);
 
       if (isAlreadySelected) {
-        // Bỏ chọn
         return {
           ...prev,
           [section]: currentSectionSelected.filter(sel => sel.id !== item.id)
         };
       } else {
-        // Kiểm tra giới hạn 7 câu mỗi phần
         if (currentSectionSelected.length >= 7) {
           alert(`Bạn đã chọn đủ 7 câu ở Phần ${section}. Vui lòng bỏ chọn một câu trước khi chọn câu mới.`);
           return prev;
         }
-        // Thêm lựa chọn
         return {
           ...prev,
           [section]: [...currentSectionSelected, item]
@@ -239,7 +234,6 @@ export default function App() {
       return;
     }
 
-    // Kiểm tra xem đã chọn đủ chưa
     if (selections.A.length < 7 || selections.B.length < 7 || selections.C.length < 7) {
       const confirmSubmit = window.confirm(
         `Bạn chưa chọn đủ 7 câu cho mỗi phần!\nPhần A: ${selections.A.length}/7\nPhần B: ${selections.B.length}/7\nPhần C: ${selections.C.length}/7\n\nBạn có chắc chắn muốn xem kết quả luôn không?`
@@ -249,7 +243,6 @@ export default function App() {
 
     setIsSubmitting(true);
 
-    // Tính toán kết quả
     const allSelected = [...selections.A, ...selections.B, ...selections.C];
     const tallies = {
       square: 0,
@@ -263,7 +256,6 @@ export default function App() {
       tallies[item.shape]++;
     });
 
-    // Tìm hình có điểm cao nhất
     let maxShape = '';
     let maxScore = -1;
     for (const [shape, score] of Object.entries(tallies)) {
@@ -275,12 +267,10 @@ export default function App() {
 
     const resultData = { tallies, dominant: maxShape };
 
-    // --- GỬI DỮ LIỆU VỀ GOOGLE SHEETS ---
-    // Đường dẫn Web App Google Apps Script của bạn
+    // API Google Sheets
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxiYl3JEeLtlkb-APdR94OUCmLMM6NYfZgqUukxyy7JvZKj8GZSZ0_zBa9Nc1nZvqaJWw/exec"; 
     
     try {
-      // Gộp nhận xét AI thành 1 đoạn văn bản
       const aiFeedback = `${resultDescriptions[maxShape].name}: ${resultDescriptions[maxShape].belbinRole} - ${resultDescriptions[maxShape].belbinDesc}`;
       
       const payload = {
@@ -306,7 +296,6 @@ export default function App() {
         body: JSON.stringify(payload)
       });
       
-      // Đợi 1 chút để giả lập loading UX
       await new Promise(resolve => setTimeout(resolve, 800));
     } catch (error) {
       console.error("Lỗi khi gửi dữ liệu:", error);
@@ -319,17 +308,17 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Tính số lượng đã chọn
   const getProgress = (section) => `${selections[section].length}/7`;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-20">
+    // FIX TẠI ĐÂY: pb-64 trên mobile để không bị thanh Bottom Bar che lấp câu hỏi, md:pb-24 cho desktop
+    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-64 md:pb-24">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <header className="bg-white shadow-sm sticky top-0 z-30">
+        <div className="max-w-4xl mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Psycho-Geometrics®</h1>
-            <p className="text-sm text-gray-500 italic">Tâm lý - Hình học</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Psycho-Geometrics®</h1>
+            <p className="text-xs sm:text-sm text-gray-500 italic">Tâm lý - Hình học</p>
           </div>
           {isSubmitted && (
              <button 
@@ -339,28 +328,28 @@ export default function App() {
                setIsSubmitted(false);
                setResults(null);
              }}
-             className="text-sm bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition"
+             className="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-2 sm:px-4 rounded-lg transition"
            >
-             Làm lại bài
+             Làm lại
            </button>
           )}
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 mt-6">
+      <main className="max-w-4xl mx-auto px-4 mt-4 sm:mt-6">
         {/* Phần Hướng dẫn */}
         {!isSubmitted && (
-          <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 uppercase">Hướng dẫn làm bài trắc nghiệm</h2>
-            <p className="mb-4">
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 uppercase">Hướng dẫn làm bài trắc nghiệm</h2>
+            <p className="mb-4 text-sm sm:text-base">
               Bài trắc nghiệm này giúp bạn xác định tính cách của mình qua các biểu tượng hình học. 
               Hiểu bản thân là bước đầu tiên và quan trọng giúp bạn hiểu người khác để giao tiếp hiệu quả hơn.
             </p>
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r flex items-start gap-3">
-              <svg className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-3 sm:p-4 rounded-r flex items-start gap-3">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <div>
+              <div className="text-sm sm:text-base">
                 <p className="font-semibold">Cách làm bài:</p>
                 <p>Bài có 3 phần (A, B, C). Trong mỗi phần, hãy chọn <strong>đúng 7 câu hay cụm từ</strong> mô tả về bạn rõ nét nhất. Hãy bấm vào "lớp tráng bạc" bên cạnh mỗi câu để lật mở hình học bí ẩn phía dưới nhé!</p>
               </div>
@@ -371,36 +360,36 @@ export default function App() {
         {/* Màn hình kết quả */}
         {isSubmitted && results && (
           <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border border-gray-100">
-            <div className={`p-8 text-center text-white bg-gradient-to-r from-gray-700 to-gray-900`}>
-              <h2 className="text-3xl font-bold mb-2">KẾT QUẢ CỦA BẠN</h2>
-              <p className="text-gray-200">Dựa trên những lựa chọn của bạn, tính cách nổi trội nhất là:</p>
+            <div className={`p-6 sm:p-8 text-center text-white bg-gradient-to-r from-gray-700 to-gray-900`}>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">KẾT QUẢ CỦA BẠN</h2>
+              <p className="text-gray-200 text-sm sm:text-base">Dựa trên những lựa chọn của bạn, tính cách nổi trội nhất là:</p>
             </div>
             
-            <div className="p-8">
-              <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
-                <div className={`w-32 h-32 rounded-full flex items-center justify-center ${resultDescriptions[results.dominant].bg} border-4 ${resultDescriptions[results.dominant].border}`}>
-                  <ShapeIcon shape={results.dominant} className={`w-20 h-20`} />
+            <div className="p-4 sm:p-8">
+              <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8 mb-8">
+                <div className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full flex items-center justify-center ${resultDescriptions[results.dominant].bg} border-4 ${resultDescriptions[results.dominant].border} flex-shrink-0`}>
+                  <ShapeIcon shape={results.dominant} className={`w-16 h-16 sm:w-20 sm:h-20`} />
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                  <h3 className={`text-3xl font-black mb-2 ${resultDescriptions[results.dominant].color}`}>
+                  <h3 className={`text-2xl sm:text-3xl font-black mb-2 ${resultDescriptions[results.dominant].color}`}>
                     {resultDescriptions[results.dominant].name}
                   </h3>
-                  <p className="text-xl italic text-gray-600 font-serif mb-4">
+                  <p className="text-lg sm:text-xl italic text-gray-600 font-serif mb-4">
                     {resultDescriptions[results.dominant].quote}
                   </p>
-                  <p className="text-gray-700 leading-relaxed text-lg">
+                  <p className="text-gray-700 leading-relaxed text-sm sm:text-lg">
                     {resultDescriptions[results.dominant].desc}
                   </p>
 
-                  {/* NỘI DUNG BELBIN THÊM VÀO */}
-                  <div className="mt-6 bg-white bg-opacity-60 p-5 rounded-lg border border-gray-200 shadow-sm text-left">
-                    <h4 className="font-bold text-gray-800 text-lg mb-2 border-b border-gray-300 pb-2">
+                  {/* NỘI DUNG BELBIN */}
+                  <div className="mt-6 bg-white bg-opacity-60 p-4 sm:p-5 rounded-lg border border-gray-200 shadow-sm text-left">
+                    <h4 className="font-bold text-gray-800 text-base sm:text-lg mb-2 border-b border-gray-300 pb-2">
                       Vai trò trong nhóm (Theo lý thuyết Belbin)
                     </h4>
-                    <p className="text-blue-800 font-semibold mb-2">
+                    <p className="text-blue-800 font-semibold mb-2 text-sm sm:text-base">
                       {resultDescriptions[results.dominant].belbinRole}
                     </p>
-                    <p className="text-gray-700 text-sm italic">
+                    <p className="text-gray-700 text-xs sm:text-sm italic">
                       {resultDescriptions[results.dominant].belbinDesc}
                     </p>
                   </div>
@@ -409,27 +398,27 @@ export default function App() {
               </div>
 
               {/* Bảng điểm chi tiết */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h4 className="text-lg font-bold mb-6 text-center text-gray-500 uppercase tracking-wider">Phân bổ các nét tính cách</h4>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="mt-8 pt-6 sm:pt-8 border-t border-gray-200">
+                <h4 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 text-center text-gray-500 uppercase tracking-wider">Phân bổ các nét tính cách</h4>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
                   {Object.keys(results.tallies).map(shapeKey => (
-                    <div key={shapeKey} className={`flex flex-col items-center p-4 rounded-lg border ${results.dominant === shapeKey ? 'border-gray-400 bg-gray-50' : 'border-gray-100'}`}>
-                      <ShapeIcon shape={shapeKey} className="w-8 h-8 mb-2" />
-                      <span className="text-sm text-gray-500 uppercase">{resultDescriptions[shapeKey].name.replace('HÌNH ', '')}</span>
-                      <span className="text-2xl font-bold mt-1">{results.tallies[shapeKey]}</span>
+                    <div key={shapeKey} className={`flex flex-col items-center p-3 sm:p-4 rounded-lg border ${results.dominant === shapeKey ? 'border-gray-400 bg-gray-50' : 'border-gray-100'}`}>
+                      <ShapeIcon shape={shapeKey} className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+                      <span className="text-xs sm:text-sm text-gray-500 uppercase">{resultDescriptions[shapeKey].name.replace('HÌNH ', '')}</span>
+                      <span className="text-xl sm:text-2xl font-bold mt-1">{results.tallies[shapeKey]}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Lời khuyên cho giảng viên */}
-              <div className="mt-8 bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
-                <h4 className="text-blue-800 font-bold mb-3 uppercase text-sm tracking-wide">💡 Tóm tắt Ứng dụng cho Giảng viên / Trưởng nhóm</h4>
-                <ul className="text-sm text-blue-900 space-y-3">
-                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm cần một bản Kế hoạch hành động / Gantt chart ➔ Hãy giao cho <strong>Hình Vuông</strong> (Monitor/Evaluator / Implementer).</span></li>
-                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm xảy ra cãi vã nội bộ ➔ Hãy nhờ <strong>Hình Tròn</strong> (Teamworker) đứng ra giải quyết.</span></li>
-                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm bí ý tưởng đề tài ➔ Hãy hỏi <strong>Hình Lượn sóng</strong> (Plant).</span></li>
-                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu deadline sắp đến mà nhóm vẫn chậm chạp ➔ Hãy để <strong>Hình Tam giác</strong> (Shaper) lên tiếng đốc thúc.</span></li>
+              {/* Lời khuyên */}
+              <div className="mt-8 bg-blue-50 border-l-4 border-blue-500 p-4 sm:p-6 rounded-lg">
+                <h4 className="text-blue-800 font-bold mb-3 uppercase text-xs sm:text-sm tracking-wide">💡 Tóm tắt Ứng dụng cho Giảng viên / Trưởng nhóm</h4>
+                <ul className="text-xs sm:text-sm text-blue-900 space-y-2 sm:space-y-3">
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm cần một bản Kế hoạch hành động / Gantt chart ➔ Hãy giao cho <strong>Hình Vuông</strong>.</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm xảy ra cãi vã nội bộ ➔ Hãy nhờ <strong>Hình Tròn</strong> đứng ra giải quyết.</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu nhóm bí ý tưởng đề tài ➔ Hãy hỏi <strong>Hình Lượn sóng</strong>.</span></li>
+                  <li className="flex items-start"><span className="mr-2">🔹</span><span>Nếu deadline sắp đến mà nhóm vẫn chậm chạp ➔ Hãy để <strong>Hình Tam giác</strong> đốc thúc.</span></li>
                 </ul>
               </div>
 
@@ -439,177 +428,104 @@ export default function App() {
 
         {/* Các phần trắc nghiệm */}
         <div className={isSubmitted ? "opacity-50 pointer-events-none" : ""}>
-          {/* Phần A */}
-          <section className="mb-10">
-            <div className="flex justify-between items-end border-b-2 border-gray-800 pb-2 mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">
-                A. CÁC NÉT TÍNH CÁCH CỦA BẠN
-              </h3>
-              <span className={`font-bold px-3 py-1 rounded-full text-sm ${selections.A.length === 7 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'}`}>
-                Đã chọn: {getProgress('A')}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {testData.A.map((item) => {
-                const isSelected = selections.A.some(sel => sel.id === item.id);
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => toggleSelection('A', item)}
-                    className={`flex items-center text-left p-3 rounded-lg border transition-all duration-300 w-full
-                      ${isSelected ? `bg-white border-blue-400 shadow-md` : `bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50`}
-                    `}
-                  >
-                    {/* Ô "Tráng Bạc" */}
-                    <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded transition-all duration-500 
-                      ${isSelected ? 'bg-white' : 'bg-slate-300 border-2 border-slate-400 shadow-inner'}`}
+          {/* Mảng chứa cấu hình cho 3 phần để render bằng map thay vì copy code 3 lần */}
+          {[
+            { id: 'A', title: 'A. CÁC NÉT TÍNH CÁCH CỦA BẠN', data: testData.A },
+            { id: 'B', title: 'B. HÀNH VI CỦA BẠN', data: testData.B },
+            { id: 'C', title: 'C. TƯƠNG QUAN VỚI MỌI NGƯỜI', data: testData.C }
+          ].map((section) => (
+            <section key={section.id} className="mb-8 sm:mb-10">
+              {/* FIX TẠI ĐÂY: Trên mobile chuyển sang flex-col để không đè chữ */}
+              <div className="flex flex-col sm:flex-row justify-start sm:justify-between items-start sm:items-end border-b-2 border-gray-800 pb-2 mb-4 sm:mb-6 gap-2">
+                <h3 className="text-lg sm:text-2xl font-bold text-gray-800">
+                  {section.title}
+                </h3>
+                <span className={`font-bold px-3 py-1 rounded-full text-xs sm:text-sm self-start sm:self-auto ${selections[section.id].length === 7 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'}`}>
+                  Đã chọn: {getProgress(section.id)}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {section.data.map((item) => {
+                  const isSelected = selections[section.id].some(sel => sel.id === item.id);
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => toggleSelection(section.id, item)}
+                      // Tăng vùng chạm (padding) cho mobile: p-3 hoặc p-4
+                      className={`flex items-center text-left p-3 sm:p-4 rounded-lg border transition-all duration-300 w-full min-h-[70px]
+                        ${isSelected ? `bg-white border-blue-400 shadow-md` : `bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50`}
+                      `}
                     >
-                      {isSelected ? (
-                        <ShapeIcon shape={item.shape} className="w-8 h-8 animate-pulse" />
-                      ) : (
-                        <div className="w-full h-full opacity-30 flex items-center justify-center">
-                           {/* Họa tiết nhiễu giả lập lớp bạc */}
-                           <svg width="100%" height="100%">
-                              <filter id="noise">
-                                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
-                              </filter>
-                              <rect width="100%" height="100%" filter="url(#noise)" fill="none" opacity="0.3"/>
-                           </svg>
-                        </div>
-                      )}
-                    </div>
-                    <span className={`ml-4 text-sm ${isSelected ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
-                      {item.text}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Phần B */}
-          <section className="mb-10">
-            <div className="flex justify-between items-end border-b-2 border-gray-800 pb-2 mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">
-                B. HÀNH VI CỦA BẠN
-              </h3>
-              <span className={`font-bold px-3 py-1 rounded-full text-sm ${selections.B.length === 7 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'}`}>
-                Đã chọn: {getProgress('B')}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {testData.B.map((item) => {
-                const isSelected = selections.B.some(sel => sel.id === item.id);
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => toggleSelection('B', item)}
-                    className={`flex items-center text-left p-3 rounded-lg border transition-all duration-300 w-full
-                      ${isSelected ? `bg-white border-blue-400 shadow-md` : `bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50`}
-                    `}
-                  >
-                    <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded transition-all duration-500 
-                      ${isSelected ? 'bg-white' : 'bg-slate-300 border-2 border-slate-400 shadow-inner'}`}
-                    >
-                      {isSelected ? <ShapeIcon shape={item.shape} className="w-8 h-8 animate-pulse" /> : (
-                         <div className="w-full h-full opacity-30 flex items-center justify-center">
-                          <svg width="100%" height="100%">
-                            <rect width="100%" height="100%" filter="url(#noise)" fill="none" opacity="0.3"/>
-                          </svg>
-                         </div>
-                      )}
-                    </div>
-                    <span className={`ml-4 text-sm ${isSelected ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
-                      {item.text}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Phần C */}
-          <section className="mb-10">
-            <div className="flex justify-between items-end border-b-2 border-gray-800 pb-2 mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">
-                C. TƯƠNG QUAN VỚI MỌI NGƯỜI
-              </h3>
-              <span className={`font-bold px-3 py-1 rounded-full text-sm ${selections.C.length === 7 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'}`}>
-                Đã chọn: {getProgress('C')}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {testData.C.map((item) => {
-                const isSelected = selections.C.some(sel => sel.id === item.id);
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => toggleSelection('C', item)}
-                    className={`flex items-center text-left p-3 rounded-lg border transition-all duration-300 w-full
-                      ${isSelected ? `bg-white border-blue-400 shadow-md` : `bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50`}
-                    `}
-                  >
-                    <div className={`w-12 h-12 flex-shrink-0 flex items-center justify-center rounded transition-all duration-500 
-                      ${isSelected ? 'bg-white' : 'bg-slate-300 border-2 border-slate-400 shadow-inner'}`}
-                    >
-                      {isSelected ? <ShapeIcon shape={item.shape} className="w-8 h-8 animate-pulse" /> : (
-                         <div className="w-full h-full opacity-30 flex items-center justify-center">
-                          <svg width="100%" height="100%">
-                            <rect width="100%" height="100%" filter="url(#noise)" fill="none" opacity="0.3"/>
-                          </svg>
-                         </div>
-                      )}
-                    </div>
-                    <span className={`ml-4 text-sm ${isSelected ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
-                      {item.text}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+                      {/* Ô "Tráng Bạc" */}
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center rounded transition-all duration-500 
+                        ${isSelected ? 'bg-white' : 'bg-slate-300 border-2 border-slate-400 shadow-inner'}`}
+                      >
+                        {isSelected ? (
+                          <ShapeIcon shape={item.shape} className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse" />
+                        ) : (
+                          <div className="w-full h-full opacity-30 flex items-center justify-center">
+                             <svg width="100%" height="100%">
+                                <filter id={`noise-${item.id}`}>
+                                  <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+                                </filter>
+                                <rect width="100%" height="100%" filter={`url(#noise-${item.id})`} fill="none" opacity="0.3"/>
+                             </svg>
+                          </div>
+                        )}
+                      </div>
+                      <span className={`ml-3 sm:ml-4 text-sm sm:text-base leading-snug ${isSelected ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
+                        {item.text}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
         </div>
 
         {/* Nút Submit */}
         {!isSubmitted && (
-          <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-20">
-            <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          // FIX TẠI ĐÂY: Sắp xếp lại bố cục thanh bottom bar cho gọn nhẹ
+          <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-3 sm:p-4 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] z-40">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
               
               {/* Form thông tin cá nhân */}
-              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <div className="flex flex-row gap-2 w-full md:w-auto">
                 <input 
                   type="text" 
-                  placeholder="Họ và tên (* Bắt buộc)" 
+                  placeholder="Họ tên (*)" 
                   value={userInfo.fullName}
                   onChange={(e) => setUserInfo({...userInfo, fullName: e.target.value})}
-                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
+                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-3/5 sm:w-48"
                   required
                 />
                 <input 
                   type="text" 
-                  placeholder="Lớp (Tùy chọn)" 
+                  placeholder="Lớp" 
                   value={userInfo.className}
                   onChange={(e) => setUserInfo({...userInfo, className: e.target.value})}
-                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-48"
+                  className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-2/5 sm:w-32"
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto justify-end">
-                <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
-                  Tiến độ: 
-                  <span className="ml-2 px-2 border-r border-gray-300">A: {getProgress('A')}</span>
-                  <span className="px-2 border-r border-gray-300">B: {getProgress('B')}</span>
-                  <span className="px-2">C: {getProgress('C')}</span>
+              {/* Tiến độ và nút Gửi */}
+              <div className="flex flex-row items-center justify-between w-full md:w-auto gap-3">
+                <div className="flex text-xs sm:text-sm text-gray-600 font-medium whitespace-nowrap bg-gray-100 rounded-md px-2 py-1">
+                  <span className="px-1 sm:px-2">A:{getProgress('A')}</span>
+                  <span className="px-1 sm:px-2 border-l border-gray-300">B:{getProgress('B')}</span>
+                  <span className="px-1 sm:px-2 border-l border-gray-300">C:{getProgress('C')}</span>
                 </div>
                 <button 
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className={`w-full sm:w-auto px-8 py-3 rounded-lg font-bold shadow-md transition-colors whitespace-nowrap
+                  className={`flex-1 md:flex-none px-4 sm:px-8 py-2 sm:py-3 rounded-lg font-bold shadow-md transition-colors whitespace-nowrap text-sm sm:text-base
                     ${isSubmitting ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}
                 >
                   {isSubmitting ? 'ĐANG GỬI...' : 'XEM KẾT QUẢ'}
                 </button>
               </div>
+              
             </div>
           </div>
         )}
